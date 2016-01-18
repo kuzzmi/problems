@@ -16,7 +16,6 @@ function Game(n) {
 }
 
 Game.prototype.canMove = function(from, to) {
-    console.log(from, to);
     var towerFrom = this.towers[from];
     var towerTo = this.towers[to];
 
@@ -28,14 +27,43 @@ Game.prototype.canMove = function(from, to) {
 };
 
 Game.prototype.makeMove = function(from, to) {
+    if (this.isCompleted()) {
+        return;
+    }
+
     if (this.canMove(from, to)) {
         this.towers[to].push(this.towers[from].pop());
     } else {
-        console.log('Not allowed:', from, to);
+        this.towers[from].push(this.towers[to].pop());
     }
 };
 
-Game.prototype.print = function() {
+Game.prototype.isTowerEmpty = function(i) {
+    return !this.towers[i].peek();
+};
+
+Game.prototype.isCompleted = function() {
+    return this.isTowerEmpty(0) && this.isTowerEmpty(1);
+};
+
+Game.prototype.move = function(from) {
+    if (n % 2 === 0) {
+        while (!this.isCompleted()) {
+            this.makeMove(0, 1);
+            this.makeMove(0, 2);
+            this.makeMove(1, 2);
+        }
+    } else {
+        while (!this.isCompleted()) {
+            this.makeMove(0, 2);
+            this.makeMove(0, 1);
+            this.makeMove(2, 1);
+        }
+    }
+};
+
+Game.prototype.toString = function() {
+    var result = [];
     var str = '';
 
     for (var i = 0; i < this.height; i++) {
@@ -44,42 +72,14 @@ Game.prototype.print = function() {
             ( this.towers[1].pop() || '|' ) + '  -  ' +
             ( this.towers[2].pop() || '|' );
 
-        console.log(str);
+        result.push(str);
     }
+    return result.join('\n');
 };
 
-Game.prototype.isTowerEmpty = function(i) {
-    return !this.towers[i].peek();
-};
+var n = 5;
+var game = new Game(n);
 
-Game.prototype.findAvailable = function(forWhich) {
-    for (var i = 0, l = this.towers.length; i < l; i++) {
-        if (i === forWhich) {
-            continue;
-        }
-        if (this.canMove(forWhich, i)) {
-            return i;
-        }
-    }
-};
+game.move();
 
-Game.prototype.move = function(from) {
-    var to = this.findAvailable(from);
-    this.makeMove(from, to);
-
-    // for (var i = 0, l = this.towers.length; i < l; i++) {
-    //     var v = this.towers[i];
-    // }
-};
-
-var game = new Game(5);
-
-// while (!( game.isTowerEmpty(0) && game.isTowerEmpty(1) )) {
-    game.move(0);
-    game.move(0);
-    game.move(1);
-    game.move(2);
-    // game.move();
-// }
-
-game.print();
+console.log(game.toString());
