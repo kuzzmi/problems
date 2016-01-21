@@ -1,7 +1,17 @@
 function Link(data, next) {
-    this.data = data || null;
+    this.data = typeof data === 'undefined' ? null : data;
     this.next = next || null;
 }
+
+Link.prototype.toString = function() {
+    var cur = this;
+    var str = '';
+    while (cur.next !== null) {
+        str += cur.next.data + ' -> ';
+        cur = cur.next;
+    }
+    return str;
+};
 
 function LinkedList() {
     this.head = null;
@@ -74,6 +84,34 @@ LinkedList.prototype.addBefore = function(key, data) {
         var node = new Link(data);
         node.next = tmp.next;
         tmp.next = node;
+    }
+};
+
+LinkedList.prototype.delete = function(head, d) {
+    var n = head;
+
+    if (n.data === d) {
+        return head.next;
+    }
+
+    while (n.next !== null) {
+        if (n.next.data === d) {
+            n.next = n.next.next;
+            return head;
+        }
+        n = n.next;
+    }
+
+    return head;
+};
+
+LinkedList.prototype.toString = function() {
+    if (this.head === null) {
+        return null;
+    } else {
+        var cur = this.head;
+        var str = 'head -> ';
+        return str + this.head.toString();
     }
 };
 
