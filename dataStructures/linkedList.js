@@ -7,7 +7,11 @@ Link.prototype.toString = function() {
     var cur = this;
     var str = '';
     while (cur.next !== null) {
-        str += cur.next.data + ' -> ';
+        if (cur.next.next) {
+            str += cur.next.data + ' -> ';
+        } else {
+            str += cur.next.data;
+        }
         cur = cur.next;
     }
     return str;

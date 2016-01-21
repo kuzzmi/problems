@@ -22,12 +22,12 @@ function removeDuplicates(list) {
 
         // If we deleted something, we need to start from the 
         // beginning, to avoid duplicated duplicates...
-        // if (deleted) {
-            // cur = cur.next;
-        // } else {
+        if (deleted) {
+            cur = list.head.next;
+        } else {
             // if not, we can go to the next item
             cur = cur.next;
-        // }
+        }
     }
 }
 
@@ -59,10 +59,6 @@ list.addLast(9);
 
 console.log(list.toString());
 
-list.delete(list.head, 2);
-list.delete(list.head, 2);
-list.delete(list.head, 2);
-
-// removeDuplicates(list);
+removeDuplicates(list);
 
 console.log(list.toString());
