@@ -94,7 +94,7 @@ LinkedList.prototype.addBefore = function(key, data) {
 LinkedList.prototype.delete = function(head, d) {
     var n = head;
 
-    if (n.data === d) {
+    if (n.next.data === d) {
         return head.next;
     }
 

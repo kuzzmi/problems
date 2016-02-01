@@ -126,14 +126,15 @@ Tree.prototype.getHeight = function(node) {
 };
 
 Tree.prototype.toString = function(node) {
+    node = node === undefined ? this.root : node;
     var str;
     if (node !== null) {
         if (node.childLeft || node.childLeft) {
             console.log('    ' + node.data + '  ');
-            str = '  ' + ( node.childLeft ? '/' : ' ' ) + '   ' + 
+            str = '  ' + ( node.childLeft ? '/' : ' ' ) + '   ' +
                          ( node.childRight ? '\\' : '' );
             console.log(str);
-            str = '  ' + ( node.childLeft ? node.childLeft.data : '' ) + '   ' + 
+            str = '  ' + ( node.childLeft ? node.childLeft.data : '' ) + '   ' +
                          ( node.childRight ? node.childRight.data : '' );
             console.log(str);
             console.log('');
@@ -142,6 +143,9 @@ Tree.prototype.toString = function(node) {
         this.toString(node.childRight);
     }
 };
+
+module.exports = Tree;
+return;
 
 // var items = [ 27, 14, 35, 10, 19, 31, 42 ];
 var items = [ 3, 2, 6, 1, 5, 7, 4 ];
@@ -153,6 +157,7 @@ var that = 31;
 for (var i in items) {
     tree.insert(items[i]);
 }
+
 
 console.log('Searching for', that, ':', tree.search(that));
 
